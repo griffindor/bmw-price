@@ -95,4 +95,12 @@ class AutoPackage extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public static function canDelete($id){
+		$cars = Car::model()->findAllByAttributes(array('package_id'=>$id));
+		if(!empty($cars)){
+			return false;
+		}
+		return true;
+	}
 }
