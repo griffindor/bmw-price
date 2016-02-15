@@ -76,3 +76,33 @@
     display: none;
     cursor: pointer;
 }
+
+.mode-switch{
+    width:400px;
+    height: 200px;
+    margin: 0 auto;
+}
+
+.mode-label{
+    width:400px;
+    height:50px;
+    padding: 0;
+    margin: 0;
+    line-height: 50px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.mode-img{
+    width:400px;
+    height: 150px;
+}
+
+.mode-img.mode-on{
+    background: rgba(0, 0, 0, 0) url("../images/on-off.png") repeat scroll 0 0;
+}
+
+.mode-img.mode-off{
+    background: rgba(0, 0, 0, 0) url("../images/on-off.png") repeat scroll 0 150px;
+}

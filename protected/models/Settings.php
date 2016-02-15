@@ -54,10 +54,10 @@ class Settings extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'img_path_dev_local' => 'Img Path Dev Local',
-			'img_path_remote' => 'Img Path Remote',
-			'img_path_site' => 'Img Path Site',
-			'mode' => 'Mode',
+			'img_path_dev_local' => 'Путь к изображениям на DEV',
+			'img_path_remote' => 'Путь к изображениям на STD',
+			'img_path_site' => 'Путь к изображениям на сайте',
+			'mode' => 'Режим',
 		);
 	}
 
