@@ -54,7 +54,7 @@ class AutoColor extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
+			'name' => 'Цвет',
 		);
 	}
 
@@ -93,5 +93,14 @@ class AutoColor extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public static function canDelete($id){
+		$cars = Car::model()->findAllByAttributes(array('color_id'=>$id));
+		if(!empty($cars))
+		{
+			return false;
+		}
+		return true;
 	}
 }

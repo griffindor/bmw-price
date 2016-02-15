@@ -14,7 +14,8 @@
 
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css">
-
+    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/custom.css">
+    <?php Yii::app()->clientScript->registerCoreScript('jquery');?>
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
@@ -29,10 +30,15 @@
 	<div id="mainmenu">
 		<?php $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
-				array('label'=>'Home', 'url'=>array('/site/index')),
-				array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
-				array('label'=>'Contact', 'url'=>array('/site/contact')),
-				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
+                array('label'=>'DO IT!', 'url'=>array('/site/contact'), 'visible'=>!Yii::app()->user->isGuest),
+				array('label'=>'Цвет', 'url'=>array('/autoColor/index'), 'visible'=>!Yii::app()->user->isGuest),
+				array('label'=>'Двигатель', 'url'=>array('/autoEngine/index'), 'visible'=>!Yii::app()->user->isGuest),
+				array('label'=>'Пакет', 'url'=>array('/autoPackage/index'), 'visible'=>!Yii::app()->user->isGuest),
+				array('label'=>'Модель', 'url'=>array('/autoModel/index'), 'visible'=>!Yii::app()->user->isGuest),
+				array('label'=>'Серия', 'url'=>array('/autoSeries/index'), 'visible'=>!Yii::app()->user->isGuest),
+                array('label'=>'В салоне', 'url'=>array('/car/index'), 'visible'=>!Yii::app()->user->isGuest),
+                array('label'=>'Настройки', 'url'=>array('/settings/index'), 'visible'=>!Yii::app()->user->isGuest),
+                array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
 				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
 			),
 		)); ?>
@@ -48,7 +54,7 @@
 	<div class="clear"></div>
 
 	<div id="footer">
-		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
+		Copyright &copy; <?php echo date('Y'); ?> by Griffin Lab.<br/>
 		All Rights Reserved.<br/>
 		<?php echo Yii::powered(); ?>
 	</div><!-- footer -->

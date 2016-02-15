@@ -1,0 +1,78 @@
+.color-wrapper{
+    width:100%;
+    margin: 50px 10px;
+}
+
+.color-item{
+    height: 25px;
+    width: 30%;
+    border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border: 1px solid #cccccc;
+    -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+    margin: 3px;
+    padding: 0 10%;
+}
+
+.color-name{
+    font-family: sans-serif;
+    font-size: 12px;
+    font-style: oblique;
+    font-weight: bold;
+    line-height: 26px;
+}
+
+.new-color-form{
+    width:30%;
+    height: 50px;
+    margin: 50px 10px;
+}
+
+.custom-input{
+    height: 25px;
+    width: 100%;
+    border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border: 1px solid #cccccc;
+    -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+    margin: 3px;
+    padding: 0 10%;
+    font-family: sans-serif;
+    font-size: 12px;
+    font-style: oblique;
+    font-weight: bold;
+    line-height: 26px;
+}
+
+.custom-button{
+    background-color: #56ff56;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.75);
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 12px;
+    font-style: oblique;
+    font-weight: bold;
+    height: 30px;
+    line-height: 27px;
+    margin: 3px;
+    width: 120px;
+}
+
+.color-delete{
+    background-image: url("../images/deleteIcon.png");
+    display: inline-block;
+    float: right;
+    height: 12px;
+    margin: 6px -60px 6px auto;
+    width: 12px;
+    display: none;
+    cursor: pointer;
+}
