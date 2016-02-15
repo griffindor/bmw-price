@@ -95,4 +95,13 @@ class AutoEngine extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public static function canDelete($id){
+		$cars = Car::model()->findAllByAttributes(array('engine_id'=>$id));
+		if(!empty($cars))
+		{
+			return false;
+		}
+		return true;
+	}
 }

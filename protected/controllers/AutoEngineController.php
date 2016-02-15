@@ -28,15 +28,7 @@ class AutoEngineController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('index'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -45,104 +37,39 @@ class AutoEngineController extends Controller
 		);
 	}
 
-	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
-	public function actionView($id)
-	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
-	}
+    public function actionIndex()
+    {
+        if(!empty($_POST['value']))
+        {
+            $new_engine = $_POST['value'];
+            $new_model = new AutoEngine();
+            $new_model->name = $new_engine;
+            $new_model->save();
+            exit();
+        }
 
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
-	public function actionCreate()
-	{
-		$model=new AutoEngine;
+        if(!empty($_POST['delete']))
+        {
+            $del_engine_id = $_POST['delete'];
+            $del_model = AutoEngine::model()->findByPk($del_engine_id);
+            if(AutoEngine::canDelete($del_engine_id))
+            {
+                $del_model->delete();
+                echo 'ok';
+                exit();
+            }
+            else{
+                echo 'Невозможно удалить. Удалите сначала авто';
+                exit();
+            }
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+        }
 
-		if(isset($_POST['AutoEngine']))
-		{
-			$model->attributes=$_POST['AutoEngine'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['AutoEngine']))
-		{
-			$model->attributes=$_POST['AutoEngine'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDelete($id)
-	{
-		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-	}
-
-	/**
-	 * Lists all models.
-	 */
-	public function actionIndex()
-	{
-		$dataProvider=new CActiveDataProvider('AutoEngine');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
-
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new AutoEngine('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['AutoEngine']))
-			$model->attributes=$_GET['AutoEngine'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
-	}
-
+        $existed = AutoEngine::model()->findAll(array('order'=>'name'));
+        $this->render('index',array(
+            'existed'=>$existed,
+        ));
+    }
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
