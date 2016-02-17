@@ -7,7 +7,6 @@
  * @property string $id
  * @property string $name
  * @property string $series_id
- * @property string $img
  *
  * The followings are the available model relations:
  * @property Car[] $cars
@@ -30,12 +29,12 @@ class AutoModel extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, series_id, img', 'required'),
-			array('name, img', 'length', 'max'=>255),
+			array('name, series_id', 'required'),
+			array('name', 'length', 'max'=>255),
 			array('series_id', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, series_id, img', 'safe', 'on'=>'search'),
+			array('id, name, series_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -60,7 +59,6 @@ class AutoModel extends CActiveRecord
 			'id' => 'ID',
 			'name' => 'Name',
 			'series_id' => 'Series',
-			'img' => 'Img',
 		);
 	}
 
@@ -85,7 +83,6 @@ class AutoModel extends CActiveRecord
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('series_id',$this->series_id,true);
-		$criteria->compare('img',$this->img,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

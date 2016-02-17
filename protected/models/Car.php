@@ -16,6 +16,7 @@
  * @property string $create_dt
  * @property string $price_upd_dt
  * @property integer $priority
+ * @property integer $img
  *
  * The followings are the available model relations:
  * @property AutoColor $color
@@ -44,11 +45,11 @@ class Car extends CActiveRecord
 			array('model_id, color_id, engine_id, package_id, price_euro, version, create_dt, price_upd_dt, priority', 'required'),
 			array('sold, priority', 'numerical', 'integerOnly'=>true),
 			array('model_id', 'length', 'max'=>10),
-			array('color_id, engine_id, package_id, price_euro, version', 'length', 'max'=>11),
+			array('color_id, engine_id, package_id, price_euro, version, img', 'length', 'max'=>11),
 			array('sold_dt', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, model_id, color_id, engine_id, package_id, price_euro, version, sold, sold_dt, create_dt, price_upd_dt, priority', 'safe', 'on'=>'search'),
+			array('id, model_id, color_id, engine_id, package_id, price_euro, version, sold, sold_dt, create_dt, price_upd_dt, priority, img', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -85,6 +86,7 @@ class Car extends CActiveRecord
 			'create_dt' => 'Create Dt',
 			'price_upd_dt' => 'Price Upd Dt',
 			'priority' => 'Priority',
+			'img' => 'Img',
 		);
 	}
 
@@ -118,6 +120,7 @@ class Car extends CActiveRecord
 		$criteria->compare('create_dt',$this->create_dt,true);
 		$criteria->compare('price_upd_dt',$this->price_upd_dt,true);
 		$criteria->compare('priority',$this->priority);
+		$criteria->compare('img',$this->img);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
