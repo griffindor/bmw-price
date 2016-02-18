@@ -1,3 +1,7 @@
+.clear{
+    clear: both;
+}
+
 .color-wrapper{
     width:100%;
     margin: 50px 10px;
@@ -64,6 +68,11 @@
     line-height: 27px;
     margin: 3px;
     width: 120px;
+    opacity: 0.7;
+}
+
+.custom-button:hover{
+    opacity: 1;
 }
 
 .color-delete{
@@ -105,4 +114,66 @@
 
 .mode-img.mode-off{
     background: rgba(0, 0, 0, 0) url("../images/on-off.png") repeat scroll 0 150px;
+}
+
+/*Series*/
+
+.series-tile{
+    width:212px;
+    height:40px;
+    margin-bottom: 10px;
+}
+
+.series-name{
+    float: left;
+    width:180px;
+    height:40px;
+}
+
+.series-name input{
+    width:128px;
+    height:40px;
+    border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border: 1px solid #cccccc;
+    -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+    margin: 3px;
+    padding: 0 10%;
+    font-family: sans-serif;
+    font-size: 14px;
+    font-style: oblique;
+    font-weight: bold;
+    line-height: 40px;
+}
+
+.series-controls{
+    float: left;
+    width:20px;
+    height: 40px;
+    margin: 3px;
+}
+
+.up-priority{
+    width:20px;
+    height: 20px;
+    background-image: url("../images/arrow-up-blue.png");
+}
+
+.down-priority{
+    width:20px;
+    height: 20px;
+    background-image: url("../images/arrow-down-blue.png");
+}
+
+.series-controls div:hover{
+    cursor:pointer;
+    opacity: 0.6;
+}
+
+.series-controls div.disabled{
+    cursor: auto;
+    opacity: 0.6;
 }
