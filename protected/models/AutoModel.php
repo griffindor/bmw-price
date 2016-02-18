@@ -99,4 +99,12 @@ class AutoModel extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public static function canDelete($id){
+		$cars = Car::model()->findAllByAttributes(array('model_id'=>$id));
+		if(empty($cars)){
+			return true;
+		}
+		return false;
+	}
 }

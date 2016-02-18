@@ -28,15 +28,7 @@ class AutoModelController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('index'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -46,101 +38,75 @@ class AutoModelController extends Controller
 	}
 
 	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
-	public function actionView($id)
-	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
-	}
-
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
-	public function actionCreate()
-	{
-		$model=new AutoModel;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['AutoModel']))
-		{
-			$model->attributes=$_POST['AutoModel'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['AutoModel']))
-		{
-			$model->attributes=$_POST['AutoModel'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDelete($id)
-	{
-		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-	}
-
-	/**
 	 * Lists all models.
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('AutoModel');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
+		if(isset($_POST['series_id'])){
+			$series_id = $_POST['series_id'];
+			$models = json_decode($_POST['json']);
+			if(!empty($models)){
+				foreach($models as $key=>$value)
+				{
+					if($key!==0)
+					{
+						$upd = AutoModel::model()->findByPk($key);
+						if(!empty($upd)&&!empty($value)){
+							if($upd->name!==$value){
+								$upd->name = $value;
+								if(!$upd->save())
+								{
+									echo "Не удалось сменить название модели на: $value ; id=$key";
+									exit();
+								}
+							}
+						}
+					}
+					else{
+						if(!empty($models[0])){
+							$model = new AutoModel();
+							$model->series_id = $series_id;
+							$model->name = $models[0];
+							if(!$model->save())
+							{
+								echo 'Не удалось сохранить новую модель';
+								exit();
+							}
+						}
+					}
+				}
+			}
 
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new AutoModel('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['AutoModel']))
-			$model->attributes=$_GET['AutoModel'];
+			echo 'ok';
+			exit();
+		}
 
-		$this->render('admin',array(
-			'model'=>$model,
-		));
+		if(isset($_POST['delete_id'])){
+			$del_id = $_POST['delete_id'];
+			if(AutoModel::canDelete($del_id))
+			{
+				$del_model = AutoModel::model()->findByPk($del_id);
+				if($del_model->delete()){
+					echo 'ok';
+					exit();
+				}
+				else{
+					echo 'Критическая ошибка при удалении записи. Обратитесь к разработчику';
+					exit();
+				}
+			}
+			echo 'Невозможно удалить модель. Удалите сначала авто в салоне';
+			exit();
+		}
+
+		if(isset($_POST['request_id'])){
+			$id = $_POST['request_id'];
+			$models = AutoModel::model()->findAllByAttributes(array('series_id'=>$id),array('order'=>'name'));
+			$this->renderPartial('_models',array('models'=>$models, 'series'=>$id));
+			exit();
+		}
+		$series = AutoSeries::model()->findAll(array('order'=>'name'));
+		$this->render('index',array('series'=>$series));
 	}
 
 	/**
