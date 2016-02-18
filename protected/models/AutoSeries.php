@@ -7,7 +7,6 @@
  * @property string $id
  * @property string $name
  * @property string $priority
- * @property string $img
  */
 class AutoSeries extends CActiveRecord
 {
@@ -27,11 +26,11 @@ class AutoSeries extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, img', 'length', 'max'=>255),
+			array('name', 'length', 'max'=>255),
 			array('priority', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, priority, img', 'safe', 'on'=>'search'),
+			array('id, name, priority', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,7 +54,6 @@ class AutoSeries extends CActiveRecord
 			'id' => 'ID',
 			'name' => 'Name',
 			'priority' => 'Priority',
-			'img' => 'Img',
 		);
 	}
 
@@ -80,7 +78,6 @@ class AutoSeries extends CActiveRecord
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('priority',$this->priority,true);
-		$criteria->compare('img',$this->img,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -96,5 +93,45 @@ class AutoSeries extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public static function upPriority($id){
+		$my_model = self::model()->findByPk($id);
+		$my_old_priority = $my_model->priority;
+		$prev_model = self::model()->findByAttributes(array('priority'=>$my_old_priority-1));
+		$my_model->priority = $my_old_priority-1;
+		$prev_model->priority = $my_old_priority;
+		if($my_model->save()){
+			if($prev_model->save()){
+				return 'ok';
+			}
+		}
+		return 'Что-то пошло не так.';
+	}
+
+	public static function downPriority($id){
+		$my_model = self::model()->findByPk($id);
+		$my_old_priority = $my_model->priority;
+		$next_model = self::model()->findByAttributes(array('priority'=>$my_old_priority+1));
+		$my_model->priority = $my_old_priority+1;
+		$next_model->priority = $my_old_priority;
+		if($my_model->save()){
+			if($next_model->save()){
+				return 'ok';
+			}
+		}
+		return 'Что-то пошло не так.';
+	}
+
+	public static function updateName($id, $name){
+		$model = self::model()->findByPk($id);
+		if(!empty($model)){
+			$model->name = $name;
+			if($model->save())
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }
